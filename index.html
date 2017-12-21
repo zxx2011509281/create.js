@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create.js</title>
+</head>
+<body>
+<canvas id="canvas" width="1000" height="600"></canvas>
+<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+<script>
+  var log = console.log.bind(console);
+  var ale = window.alert;
+  //创建一个阶段，得到一个参考的画布
+  var canvas = document.querySelector('#canvas');
+  stage = new createjs.Stage("canvas");
+
+  //1.创建一个形状的显示对象
+  /*  circle = new createjs.Shape();
+    circle.fillCommand = circle.graphics.beginFill("red").command; // fillCommand 可以自己定义名称
+    circle.rectCommand = circle.graphics.rect(0, 0, 100, 100).command;
+    // circle.graphics.drawCircle(0, 0, 40);
+    //形状实例的设置位置
+    circle.x = circle.y = 50;
+    //添加形状实例到舞台显示列表
+    stage.addChild(circle);
+    stage.update();
+
+    circle.addEventListener("click", changeColor); // 添加事件
+    function changeColor(e) {
+      e.target.fillCommand.style = 'blue';
+      e.target.rectCommand.x+=20;
+      stage.update();
+    }
+  */
+
+
+
+
+  // 2.创建图片
+  /*  var img = new Image();
+    img.src = './img/1.png';
+    img.onload = function () {
+      var bg = new createjs.Bitmap("./img/1.png");
+      log(bg);
+      bg.scaleX = bg.scaleY = 0.5;
+      stage.addChild(bg);
+      stage.update();
+    };*/
+
+
+
+
+
+  //3.精灵图
+  /*  var sprite = {};
+    var img = new Image();
+    img.src = './img/sprites.png';
+    img.onload = function () {
+      var data = {
+        "images": ["./img/sprites.png"],//图片路径
+        "frames": {"height": 292, "width": 165, "count": 64, "regX": 82, "regY": 0},//每帧的尺寸，count是总帧数
+        "animations": {
+          "run": [0, 25, "run", 1.5],//[开始帧，结束帧，动画完成后的动作，速度]
+          "jump": [26, 63, "run"]
+        }
+      };
+      // 添加
+      var spriteSheet = new createjs.SpriteSheet(data);
+      sprite = new createjs.Sprite(spriteSheet);
+      sprite.x = 100;
+      sprite.gotoAndPlay("run");
+      // 或者 sprite = new createjs.Sprite(spriteSheet，"run");
+      stage.addChild(sprite);
+      sprite.addEventListener("click", handleClick); // 添加事件
+    };
+
+    // 点击跳跃
+    function handleClick(event) {
+      sprite.gotoAndPlay("jump");
+      // 鼠标点击事件
+    }
+
+    // 更新动画
+    createjs.Ticker.on("tick", handleTick);
+    function handleTick(event) {
+      stage.update(event);
+      sprite.x += 10;
+      if (sprite.x > 800) {
+        sprite.x = -10
+      }
+    }*/
+
+
+
+
+
+
+  // 4.文本
+  /*  var text = new createjs.Text("Hello World", "20px Arial", "#ff7700");
+    text.x = 100;
+    text.y = 100;
+  //  text.textBaseline = "Middle";
+  //  text.textBaseline = "top";
+  //  text.textBaseline = "bottom";
+    text.textBaseline = "Hanging";
+  //  text.textBaseline = "alphabetic";
+    stage.addChild(text);
+    stage.update()*/
+
+
+
+
+
+
+  /*
+  * 产生小球,单击消失,并记录加1(家贪吃蛇)
+  */
+  var num = 0;
+  var vx = 0; // 水平移动速度
+  var vy = 0; // 竖直移动速度
+  for (var i = 0; i < 10; i++) {
+    circle = new createjs.Shape();
+    circle.graphics.beginFill("red").drawCircle(10 * i, 20, 10);
+    circle.x += 20 * i;
+    stage.addChild(circle);
+    stage.update();
+    circle.addEventListener("click", handleClick); // 添加点击事件
+
+  }
+
+  function handleClick(e) {
+    stage.removeChild(e.target)
+    log(++num)
+  }
+
+  document.addEventListener("keydown", function (event) {
+
+    var keycode = event.keyCode;
+    if (keycode == 38) { // 上
+      vy -= 2;
+    } else if (keycode == 40) {
+      vy += 2;
+    } else if (keycode == 37) {
+      vx -= 2
+    } else if (keycode == 39) {
+      vx += 2;
+    }
+  })
+  createjs.Ticker.on("tick", handleTick);
+
+  function handleTick(e) {
+
+    // e.target.x+=3;
+    stage.x += vx;
+    stage.y += vy;
+    if (stage.x > 1000) {
+      stage.x = 0;
+    } else if (stage.x < 0) {
+      stage.x = 1000;
+    } else if (stage.y > 600) {
+      stage.y = 0;
+    } else if (stage.y < 0) {
+      stage.y = 600;
+    }
+    stage.update();
+  }
+</script>
+</body>
+</html>
